@@ -1,4 +1,3 @@
-#pragma 
 #include <iostream>
 #include <SDL.h>
 #undef main
@@ -16,7 +15,7 @@ Bullet::Bullet(int width, int height, int x, int y, SDL_Texture* texture, int an
 	yp = y;
 	Texture = texture;
 	Angle = angle;
-
+	CollisionBox = { x + 10,y + 16,24,10 };
 }
 
 Bullet::~Bullet() {
@@ -30,16 +29,17 @@ Bullet::~Bullet() {
 
 void Bullet::move() {
 	if (Angle == 0) {
-		xp += 8;
+		xp += 0.8 * deltaTime;
 	}
 	if (Angle == 180) {
-		xp -= 8;
+		xp -= 0.8 * deltaTime;
 	}
 	if (Angle == 90) {
-		yp += 8;
+		yp += 0.8 * deltaTime;
 	}
 	if (Angle == 270) {
-		yp -= 8;
+		yp -= 0.8 * deltaTime;
 	}
+	CollisionBox = { xp + 10,yp + 16,24,10 };
 
 }

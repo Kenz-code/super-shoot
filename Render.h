@@ -11,7 +11,19 @@ public:
 	SDL_Texture* loadFromFilee(const char* path);
 	void update();
 	void clear(SDL_Color* color);
+	void updateDelta();
 private:
+	//delta time varibles
+	Uint64 NOW = SDL_GetPerformanceCounter();
+	Uint64 LAST = 0;
 	SDL_Window* window;
 	SDL_Renderer* renderer;
+};
+
+extern double deltaTime;
+enum EnemyType { REDSIREN, BUFF_REGULAR };
+struct Circle
+{
+	double x, y;
+	int r;
 };

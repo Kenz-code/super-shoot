@@ -7,6 +7,8 @@
 
 #include "Render.h"
 
+double deltaTime = 0;
+
 Window::Window() {
 	if (SDL_Init(SDL_INIT_EVERYTHING) > 0) {
 		std::cout << "SDL failed to init :( ooooooooooooooof" << "             #loooooooooooooooooooooooooooooollereressssssssssssssssssssssssss" << std::endl;
@@ -97,4 +99,12 @@ void Window::clear(SDL_Color* color) {
 	SDL_SetRenderDrawColor(renderer, color->r, color->g, color->b, 0xFF);
 	SDL_RenderClear(renderer);
 	
+}
+
+void Window::updateDelta() {
+	//DO DELTA TIMEEEEE
+	LAST = NOW;
+	NOW = SDL_GetPerformanceCounter();
+
+	deltaTime = (double)((NOW - LAST) * 1000 / (double)SDL_GetPerformanceFrequency());
 }

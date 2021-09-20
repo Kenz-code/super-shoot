@@ -12,13 +12,12 @@
 
 #include "Render.h"
 #include "Player.h"
-#include "Bullet.h"
 
 Player::Player(int width, int height) {
-	x = 0, y = 0;
+	x = 0.0, y = 0.0;
 	goleft = false, goright = false, goup= false, godown=false;
 	Width = width, Height = height;
-	CollisionBox = { 0,0,Width, Height };
+	CollisionBox = { x,y,13};
 	player_up = { 0,0,40,40 };
 	player_right = { 40,0,40,40 };
 	player_down = { 80,0,40,40 };
@@ -32,19 +31,33 @@ Player::~Player() {
 }
 void Player::move(SDL_Event e) {
 	if (goup) {
-		y -= 4;
+		y -= 0.35 * deltaTime;
+		CollisionBox = { x + 20,y + Width - 13,12 };
 	}
 	if (godown) {
-		y += 4;
+		y += 0.35 * deltaTime;
+		CollisionBox = { x + 20,y + 13,12 };
 	}
 	if (goright) {
-		x += 4;
+		x += 0.35 * deltaTime;
+		CollisionBox = { x + 13,y + 20,12 };
 	}
 	if (goleft) {
-		x -= 4;
+		x -= 0.35 * deltaTime;
+		CollisionBox = { x + Width - 13,y + 20,12 };
 	}
-	CollisionBox.x = x;
-	CollisionBox.y = y;
+	if (x-CollisionBox.r < 0) {
+		x = 0+ CollisionBox.r;
+	}
+	if (y -CollisionBox.r < 0) {
+		y = 0+ CollisionBox.r;
+	}
+	if (x + CollisionBox.r > 1280) {
+		x = 1280 - CollisionBox.r;
+	}
+	if (y+- CollisionBox.r > 720) {
+		y = 720 - CollisionBox.r;
+	}
 }
 void Player::keydown(SDL_Event e, SDL_Texture* bullet) {
 	switch (e.key.keysym.sym) {

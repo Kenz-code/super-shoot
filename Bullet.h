@@ -12,7 +12,9 @@ public:
 	int getheight() { return Height; };
 	int getangle() { return Angle; };
 	SDL_Texture* gettexture() { return Texture; };
+	SDL_Rect getCBox() { return CollisionBox; };
 private:
+	SDL_Rect CollisionBox;
 	int Width, Height;
 	int xp, yp;
 	int Angle;

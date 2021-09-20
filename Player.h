@@ -1,5 +1,4 @@
 #pragma once
-#include "Bullet.h"
 
 class Player {
 public:
@@ -12,11 +11,12 @@ public:
 	float getxpos(), getypos();
 	int getwidth(), getheight();
 	SDL_Rect getCurrentClip() { return current_clip; };
+	Circle getCBox() { return CollisionBox; };
 private:
-	float x, y;
+	double x, y;
 	bool goleft, goright, goup, godown;
 	int Width, Height;
-	SDL_Rect CollisionBox;
+	Circle CollisionBox;
 
 	//current clip being rendered
 	SDL_Rect current_clip;
