@@ -2,6 +2,7 @@
 
 class Player {
 public:
+	int score;
 	Player(int width, int height);
 	~Player();
 

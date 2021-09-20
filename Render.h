@@ -21,7 +21,7 @@ private:
 };
 
 extern double deltaTime;
-enum EnemyType { REDSIREN, BUFF_REGULAR };
+enum EnemyType { REDSIREN, GREENSIREN };
 struct Circle
 {
 	double x, y;

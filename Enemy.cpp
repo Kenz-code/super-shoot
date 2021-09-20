@@ -21,14 +21,14 @@
 Enemy::Enemy(EnemyType Type, double Y, double Speed)
 	:x(1280), y(Y), speed(Speed), type(Type)
 {
-	if (type == REDSIREN) {
-		CollisionBox = { x+ 20,y+ 20,36 };
+	if (type == REDSIREN or type == GREENSIREN) {
+		CollisionBox = { x+ 20,y+ 20,45 };
 	}
 }
 
 void Enemy::move() {
 	x -= speed * deltaTime;
-	if (type == REDSIREN) {
-		CollisionBox = { x + 20,y + 20,36 };
+	if (type == REDSIREN or type == GREENSIREN) {
+		CollisionBox = { x + 20,y + 20,45 };
 	}
 }

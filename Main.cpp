@@ -37,6 +37,7 @@ SDL_Color BLACK = { 0,0,0 };
 SDL_Color WHITE = { 255,255,255 };
 
 SDL_Rect RedSirenTre = { 0,0,40,40 };
+SDL_Rect GreenSirenTre = { 40,0,40,40 };
 
 std::vector<Enemy> enemies;
 std::vector<bool> enemyCS(100);
@@ -123,17 +124,26 @@ void close() {
 void spawnEnemies(Uint32 time) {
 	int yo = time / 1000;
 	if (yo == 1 and enemyCS.at(0) != true) {
-		Enemy e(REDSIREN, 340, .5);
+		Enemy e(REDSIREN, 300, .25);
 		enemies.push_back(e);
 		enemyCS.insert(enemyCS.begin(),true);
 	}
 	if (yo == 2 and enemyCS.at(1) != true) {
-		Enemy e(REDSIREN, 500, .7);
+		Enemy e(REDSIREN, 550, .35);
 		enemies.push_back(e);
 		enemyCS.insert(enemyCS.begin(), true);
 	}
 	if (yo == 3 and enemyCS.at(2) != true) {
-		Enemy e(REDSIREN, 220, 1);
+		Enemy e(GREENSIREN, 120, .5);
+		enemies.push_back(e);
+		enemyCS.insert(enemyCS.begin(), true);
+	}
+	if (yo == 4 and enemyCS.at(3) != true) {
+		Enemy e(REDSIREN, 10, .5);
+		enemies.push_back(e);
+		enemyCS.insert(enemyCS.begin(), true);
+	}if (yo == 4 and enemyCS.at(4) != true) {
+		Enemy e(GREENSIREN, 600, .5);
 		enemies.push_back(e);
 		enemyCS.insert(enemyCS.begin(), true);
 	}
@@ -142,7 +152,7 @@ void spawnEnemies(Uint32 time) {
 Uint32 title() {
 	bool running = true;
 	SDL_Event e;
-	Mix_Volume(0, 95);
+	Mix_Volume(0, 40);
 	Mix_PlayChannel(0, titleSfx, -1);
 	while (running) {
 		while (SDL_PollEvent(&e) != 0) {
@@ -189,6 +199,7 @@ int main(int argc, char* argv[]) {
 	bullets1.push_back(b);
 	Uint32 startTime = SDL_GetTicks();
 	Mix_PlayChannel(0, mainbgSfx, -1);
+	SDL_Surface *surf;
 	while (running) {
 		//delta time
 		window.updateDelta();
@@ -240,7 +251,8 @@ int main(int argc, char* argv[]) {
 			else if (bullets1.at(i).getypos() < 0 or bullets1.at(i).getypos() > 720) {
 				bullets1.erase(bullets1.begin() + i);
 			}
-			else { window.renderEx(bullets1.at(i).gettexture(), bullets1.at(i).getxpos(), bullets1.at(i).getypos(), bullets1.at(i).getwidth(), bullets1.at(i).getheight(), NULL, bullets1.at(i).getangle()); }
+			else { window.renderEx(bullets1.at(i).gettexture(), bullets1.at(i).getxpos(), bullets1.at(i).getypos(), bullets1.at(i).getwidth(), bullets1.at(i).getheight(), NULL, bullets1.at(i).getangle()); 
+			}
 
 		}
 		startTime = SDL_GetTicks();
@@ -249,29 +261,26 @@ int main(int argc, char* argv[]) {
 			enemies.at(i).move();
 			for (int j = 0; j != bullets1.size(); j++) {
 				if (checkCollisionCR(enemies.at(i).getCollisionBox(), bullets1.at(j).getCBox())) {
-					if (enemies.size() == 1) {
-						Enemy e(REDSIREN, 739, .5);
-						enemies.push_back(e);
-						enemies.erase(enemies.begin() + i);
-					}
-					else {
-						enemies.erase(enemies.begin() + i);
-					}
+					Enemy e(REDSIREN, 739, .5);
+					enemies.push_back(e);
+					enemies.erase(enemies.begin() + i);
 				}
 				if (checkCollisionCC(enemies.at(i).getCollisionBox(), player1.getCBox())) {
 					running = false;
-
 				}
 			}
 			if (enemies.at(i).getxpos() < 0 or enemies.at(i).getxpos() > 1290) {
-				if (enemies.size() != 1) {
-					enemies.erase(enemies.begin() + i);
-				}
+				Enemy e(REDSIREN, 739, .5);
+				enemies.push_back(e);
+				enemies.erase(enemies.begin() + i);
 			}
 			else { 
 				if (enemies.at(i).gettype() == REDSIREN) {
 					window.renderEx(EnemyTre, enemies.at(i).getxpos(), enemies.at(i).getypos(), 80, 80, &RedSirenTre,270);
 				} 
+				if (enemies.at(i).gettype() == GREENSIREN) {
+					window.renderEx(EnemyTre, enemies.at(i).getxpos(), enemies.at(i).getypos(), 80, 80, &GreenSirenTre, 270);
+				}
 			}
 
 		}
