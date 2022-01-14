@@ -19,4 +19,5 @@ private:
 	int xp, yp;
 	int Angle;
 	SDL_Texture* Texture;
+
 };

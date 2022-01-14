@@ -34,6 +34,7 @@ Window::Window() {
 						std::cout << "ladies and gentlemen, ttf didnt  init dododoododododdoododdoodododooooooooooooododododododo error:" << SDL_GetError() << std::endl;
 					}
 					Mix_OpenAudio(44100, MIX_DEFAULT_FORMAT, 2, 2048);
+					Mix_AllocateChannels(5);
 
 				}
 			}

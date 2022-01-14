@@ -14,6 +14,7 @@
 #include "Player.h"
 
 Player::Player(int width, int height) {
+	score = -1;
 	x = 0.0, y = 0.0;
 	goleft = false, goright = false, goup= false, godown=false;
 	Width = width, Height = height;
@@ -25,6 +26,7 @@ Player::Player(int width, int height) {
 	current_clip = player_up;
 }
 Player::~Player() {
+	int score = NULL;
 	float x = NULL, y = NULL;
 	int Width = NULL, Height = NULL;
 	SDL_Rect CollisionBox = { NULL,NULL,NULL,NULL };
@@ -32,19 +34,19 @@ Player::~Player() {
 void Player::move(SDL_Event e) {
 	if (goup) {
 		y -= 0.35 * deltaTime;
-		CollisionBox = { x + 20,y + Width - 13,12 };
+		CollisionBox = { x + 40,y + Width - 26,24 };
 	}
 	if (godown) {
 		y += 0.35 * deltaTime;
-		CollisionBox = { x + 20,y + 13,12 };
+		CollisionBox = { x + 40,y + 26,24 };
 	}
 	if (goright) {
 		x += 0.35 * deltaTime;
-		CollisionBox = { x + 13,y + 20,12 };
+		CollisionBox = { x + 26,y + 40,24 };
 	}
 	if (goleft) {
 		x -= 0.35 * deltaTime;
-		CollisionBox = { x + Width - 13,y + 20,12 };
+		CollisionBox = { x + Width - 26 ,y + 40,24 };
 	}
 	if (x-CollisionBox.r < 0) {
 		x = 0+ CollisionBox.r;
