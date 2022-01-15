@@ -359,7 +359,7 @@ void spawnEnemies(Uint32 time) {
 		enemyCS.insert(enemyCS.begin(), true);
 	}
 	if (yo == 40 and enemyCS.at(41) != true) {
-		Enemy e(BOSIREN, 220, .1, 1);
+		Enemy e(BOSIREN, 220, .1, 35);
 		enemies.push_back(e);
 		enemyCS.insert(enemyCS.begin(), true);
 	}
@@ -631,7 +631,8 @@ void gameOver() {
 void cutScene(int cutSceneNum) {
 	int starting = 1280 * cutSceneNum;
 	Mix_FadeOutChannel(0, 2000);
-	for (int i = 0; i != -1280; i -= 4) {
+	for (int i = 0; i >= -1280; i -= 1 * window.returnDelta() / 4) {
+		window.updateDelta();
 		bgTreX = i + starting - 1;
 		window.clear(&WHITE);
 		window.render(bgTre, bgTreX, 0, 3840, 720, NULL);
@@ -640,20 +641,23 @@ void cutScene(int cutSceneNum) {
 }
 
 void bossBar(int health) {
-	window.render(bossBarInTre, 160, 10, 960 * health, 72, NULL);
+	window.render(bossBarInTre, 160, 10, 27 * health, 72, NULL);
 }
 
 void winScreen(int x, int y) {
 	Mix_PlayChannel(0, winSfx, 0);
 	SDL_Event e;
+	bool quit = false;
 	double j = 0;
 	window.clear(&WHITE);
 	window.render(bgTre, bgTreX, 0, 3840, 720, NULL);
 	double i;
-	for (i = 320; i != 460; i += 0.5) {
+	for (i = 320; i <= 460; i += 0.5 * window.returnDelta() / 17) {
+		window.updateDelta();
 		while (SDL_PollEvent(&e) != 0) {
 			if (e.type == SDL_QUIT) {
-				i = 320;
+				quit = true;
+				i = 460;
 			}
 		}
 		j += 0.25;
@@ -715,6 +719,7 @@ int main(int argc, char* argv[]) {
 	Uint32 startTime = SDL_GetTicks();
 	Mix_PlayChannel(0, mainbgSfx1, -1);
 	SDL_Surface *surf;
+	player1.timeShoot = SDL_GetTicks();
 	while (running) {
 		//delta time
 		window.updateDelta();
@@ -727,22 +732,25 @@ int main(int argc, char* argv[]) {
 				switch (e.key.keysym.sym) { 
 				case SDLK_SPACE:
 					//shoot
-					Mix_PlayChannel(1, playerShootSfx, 0);
-					if (player1.getCurrentClip().x == 0 and player1.getCurrentClip().y == 0) {
-						Bullet b(40, 40, player1.getxpos() + 20, player1.getypos(), bulletTre, 270);
-						bullets1.push_back(b);
-					}
-					else if (player1.getCurrentClip().x == 40 and player1.getCurrentClip().y == 0) {
-						Bullet b(40, 40, player1.getxpos() + 40, player1.getypos() + 20, bulletTre, 0);
-						bullets1.push_back(b);
-					}
-					else if (player1.getCurrentClip().x == 80 and player1.getCurrentClip().y == 0) {
-						Bullet b(40, 40, player1.getxpos() + 20, player1.getypos() + 40, bulletTre, 90);
-						bullets1.push_back(b);
-					}
-					else if (player1.getCurrentClip().x == 120 and player1.getCurrentClip().y == 0) {
-						Bullet b(40, 40, player1.getxpos(), player1.getypos() + 20, bulletTre, 180);
-						bullets1.push_back(b);
+					if (startTime - 160 > player1.timeShoot) {
+						Mix_PlayChannel(1, playerShootSfx, 0);
+						player1.timeShoot = startTime;
+						if (player1.getCurrentClip().x == 0 and player1.getCurrentClip().y == 0) {
+							Bullet b(40, 40, player1.getxpos() + 20, player1.getypos(), bulletTre, 270);
+							bullets1.push_back(b);
+						}
+						else if (player1.getCurrentClip().x == 40 and player1.getCurrentClip().y == 0) {
+							Bullet b(40, 40, player1.getxpos() + 40, player1.getypos() + 20, bulletTre, 0);
+							bullets1.push_back(b);
+						}
+						else if (player1.getCurrentClip().x == 80 and player1.getCurrentClip().y == 0) {
+							Bullet b(40, 40, player1.getxpos() + 20, player1.getypos() + 40, bulletTre, 90);
+							bullets1.push_back(b);
+						}
+						else if (player1.getCurrentClip().x == 120 and player1.getCurrentClip().y == 0) {
+							Bullet b(40, 40, player1.getxpos(), player1.getypos() + 20, bulletTre, 180);
+							bullets1.push_back(b);
+						}
 					}
 				}
 			}

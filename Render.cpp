@@ -109,3 +109,6 @@ void Window::updateDelta() {
 
 	deltaTime = (double)((NOW - LAST) * 1000 / (double)SDL_GetPerformanceFrequency());
 }
+double Window::returnDelta() {
+	return deltaTime;
+}

@@ -15,6 +15,7 @@
 
 Player::Player(int width, int height) {
 	score = -1;
+	timeShoot = 0;
 	x = 0.0, y = 0.0;
 	goleft = false, goright = false, goup= false, godown=false;
 	Width = width, Height = height;
@@ -26,6 +27,7 @@ Player::Player(int width, int height) {
 	current_clip = player_up;
 }
 Player::~Player() {
+	Uint32 timeShoot = NULL;
 	int score = NULL;
 	float x = NULL, y = NULL;
 	int Width = NULL, Height = NULL;

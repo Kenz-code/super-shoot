@@ -12,6 +12,7 @@ public:
 	void update();
 	void clear(SDL_Color* color);
 	void updateDelta();
+	double returnDelta();
 private:
 	//delta time varibles
 	Uint64 NOW = SDL_GetPerformanceCounter();

@@ -3,6 +3,7 @@
 class Player {
 public:
 	int score;
+	Uint32 timeShoot;
 	Player(int width, int height);
 	~Player();
 
